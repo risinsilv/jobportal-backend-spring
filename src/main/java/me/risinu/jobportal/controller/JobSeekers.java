@@ -1,0 +1,48 @@
+package me.risinu.jobportal.controller;
+
+import jakarta.persistence.*;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.AllArgsConstructor;
+
+import java.time.LocalDateTime;
+
+@Entity
+@Table(name = "job_seekers")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class JobSeekers {
+    @Id
+    private int id;
+
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    private Users user;
+
+    private String resumeUrl;
+
+    @Column(columnDefinition = "TEXT")
+    private String profileSummary;
+
+    @Column(columnDefinition = "TEXT")
+    private String skills;
+
+    @Column(columnDefinition = "TEXT")
+    private String jobHistory;
+
+    @Column(columnDefinition = "TEXT")
+    private String experience;
+
+    @Column(columnDefinition = "TEXT")
+    private String certifications;
+
+    @Column(columnDefinition = "TEXT")
+    private String contactInfo;
+
+    @Column(columnDefinition = "TEXT")
+    private String education;
+
+    private LocalDateTime createdAt;
+}
