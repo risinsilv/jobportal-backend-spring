@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -40,5 +40,10 @@ public class JobPostings {
 
     public enum Status {
         Open, Closed
+    }
+
+    @PrePersist
+    protected void onCreate() {
+        this.postedAt = LocalDateTime.now();
     }
 }

@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -8,11 +8,11 @@ import lombok.AllArgsConstructor;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "employer")
+@Table(name = "trainers")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Employer {
+public class Trainers {
     @Id
     private int id;
 
@@ -21,16 +21,20 @@ public class Employer {
     @JoinColumn(name = "id")
     private Users user;
 
-    private String companyName;
+    @Column(columnDefinition = "TEXT")
+    private String bio;
 
-    private String companyWebsite;
+    private String specialization;
+
+    private String company;
 
     @Column(columnDefinition = "TEXT")
-    private String companyAddress;
-
-    private String contactInfo;
-
-    private String companyLogoUrl;
+    private String certifications;
 
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

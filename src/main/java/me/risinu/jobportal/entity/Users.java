@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -32,5 +32,9 @@ public class Users {
 
     public enum Role {
         JobSeeker, Employer, Trainer, Admin
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
     }
 }

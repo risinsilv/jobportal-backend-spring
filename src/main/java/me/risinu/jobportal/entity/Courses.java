@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -31,4 +31,9 @@ public class Courses {
     private String videoUrl;
 
     private LocalDateTime createdAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.createdAt = LocalDateTime.now();
+    }
 }

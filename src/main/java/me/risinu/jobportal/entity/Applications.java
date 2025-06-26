@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
@@ -34,5 +34,10 @@ public class Applications {
 
     public enum Status {
         Applied, Shortlisted, Rejected, Hired
+
+    }
+    @PrePersist
+    protected void onCreate() {
+        this.appliedAt = LocalDateTime.now();
     }
 }

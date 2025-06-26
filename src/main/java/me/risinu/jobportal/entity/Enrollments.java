@@ -1,4 +1,4 @@
-package me.risinu.jobportal.controller;
+package me.risinu.jobportal.entity;
 
 
 import jakarta.persistence.*;
@@ -27,4 +27,9 @@ public class Enrollments {
     private Users jobSeeker;
 
     private LocalDateTime enrolledAt;
+
+    @PrePersist
+    protected void onCreate() {
+        this.enrolledAt = LocalDateTime.now();
+    }
 }
