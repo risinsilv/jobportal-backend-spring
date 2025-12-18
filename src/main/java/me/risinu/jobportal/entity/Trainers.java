@@ -18,7 +18,7 @@ public class Trainers {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private Users user;
 
     @Column(columnDefinition = "TEXT")

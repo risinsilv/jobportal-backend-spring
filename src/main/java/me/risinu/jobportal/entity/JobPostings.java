@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+
 import java.time.LocalDateTime;
 
 @Entity
@@ -18,8 +19,8 @@ public class JobPostings {
     private int jobId;
 
     @ManyToOne
-    @JoinColumn(name = "employer_id")
-    private Users employer;
+    @JoinColumn(name = "employer_id",referencedColumnName = "user_id")
+    private Employer employer;
 
     private String title;
 

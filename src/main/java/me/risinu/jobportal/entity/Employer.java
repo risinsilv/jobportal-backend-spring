@@ -18,7 +18,7 @@ public class Employer {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private Users user;
 
     private String companyName;
@@ -30,7 +30,7 @@ public class Employer {
 
     private String contactInfo;
 
-    private String companyLogoUrl;
+    private String position;
 
     private LocalDateTime createdAt;
 

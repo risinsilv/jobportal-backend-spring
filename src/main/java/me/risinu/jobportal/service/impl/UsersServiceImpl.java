@@ -48,13 +48,19 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public UsersDto updateUser(int id, UsersDto usersDto) {
-        if (usersRepo.existsById(id)) {
-            Users user = modelMapper.map(usersDto, Users.class);
-            user.setId(id);
-            Users updatedUser = usersRepo.save(user);
-            return modelMapper.map(updatedUser, UsersDto.class);
+        Users existingUser = usersRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        // Only update fields if they are not null in the DTO
+        if (usersDto.getName() != null) {
+            existingUser.setName(usersDto.getName());
         }
-        return null;
+        if (usersDto.getProfilePic() != null) {
+            existingUser.setProfilePic(usersDto.getProfilePic());
+        }
+        // Repeat for other fields as needed
+        Users savedUser = usersRepo.save(existingUser);
+        return modelMapper.map(savedUser, UsersDto.class);
     }
 
     @Override
@@ -80,5 +86,12 @@ public class UsersServiceImpl implements UsersService {
             }
         }
         return null; // Return null or throw an exception for invalid credentials
+    }
+
+    @Override
+    public UsersDto getUserByEmail(String email) {
+        return usersRepo.findByEmail(email)
+                .map(user -> modelMapper.map(user, UsersDto.class))
+                .orElse(null);
     }
 }

@@ -12,4 +12,5 @@ public interface UsersService {
     void deleteUser(int id);
     UsersDto registerUser(UsersDto usersDto);
     String login(String email, String password);
+    UsersDto getUserByEmail(String email);
 }

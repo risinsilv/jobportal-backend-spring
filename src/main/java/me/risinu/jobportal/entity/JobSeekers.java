@@ -18,8 +18,12 @@ public class JobSeekers {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "user_id")
     private Users user;
+
+    private String title;
+
+    private String address;
 
     private String resumeUrl;
 

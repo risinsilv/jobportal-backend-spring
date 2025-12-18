@@ -30,6 +30,8 @@ public class Users {
 
     private LocalDateTime createdAt;
 
+    
+
     public enum Role {
         JobSeeker, Employer, Trainer, Admin
     }

@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 
 import java.time.LocalDateTime;
 
@@ -19,13 +22,12 @@ public class Applications {
 
     @ManyToOne
     @JoinColumn(name = "job_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private JobPostings job;
 
     @ManyToOne
-    @JoinColumn(name = "jobseeker_id")
-    private Users jobSeeker;
-
-    private String resumeUrl;
+    @JoinColumn(name = "jobseeker_id", referencedColumnName = "user_id")
+    private JobSeekers jobSeeker;
 
     @Enumerated(EnumType.STRING)
     private Status status;

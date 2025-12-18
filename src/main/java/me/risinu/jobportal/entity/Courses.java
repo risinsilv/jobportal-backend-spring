@@ -18,10 +18,12 @@ public class Courses {
     private int courseId;
 
     @ManyToOne
-    @JoinColumn(name = "trainer_id")
-    private Users trainer;
+    @JoinColumn(name = "trainer_id",referencedColumnName = "user_id")
+    private Trainers trainer;
 
     private String title;
+
+    private String category;
 
     @Column(columnDefinition = "TEXT")
     private String description;

@@ -1,17 +1,27 @@
 package me.risinu.jobportal.controller;
 
+import me.risinu.jobportal.dto.LoginResponseDto;
 import me.risinu.jobportal.dto.UsersDto;
 import me.risinu.jobportal.service.UsersService;
 import me.risinu.jobportal.util.JWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.UrlResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
+import java.nio.file.StandardCopyOption;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.List;
+import java.util.UUID;
+import org.springframework.core.io.Resource;
 
 @RestController
-@RequestMapping("/api/v0/job/users")
+@RequestMapping("/api/users")
 public class UsersController {
 
     private final UsersService usersService;
@@ -83,15 +93,47 @@ public class UsersController {
         UsersDto registeredUser = usersService.registerUser(usersDto);
         return ResponseEntity.ok(registeredUser);
     }
-
     @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody UsersDto usersDto) {
+    public ResponseEntity<?> login(@RequestBody UsersDto usersDto) {
         String token = usersService.login(usersDto.getEmail(), usersDto.getPassword());
         if (token != null) {
-            return ResponseEntity.ok(token);
+            UsersDto user = usersService.getUserByEmail(usersDto.getEmail());
+            LoginResponseDto response = new LoginResponseDto(
+                    user.getId(),
+                    user.getName(),
+                    user.getRole(),
+                    token
+            );
+            return ResponseEntity.ok(response);
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }
+
+    @PostMapping("/upload")
+    public ResponseEntity<String> uploadImage(@RequestParam("file") MultipartFile file) throws IOException {
+        String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+
+        // Create uploads directory if it doesn't exist
+        Path uploadsDir = Paths.get("uploads");
+        if (!Files.exists(uploadsDir)) {
+            Files.createDirectories(uploadsDir);
+        }
+
+        Path path = Paths.get("uploads/" + fileName);
+        Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+        return ResponseEntity.ok("/api/images/" + fileName);
+    }
+
+    // Serve image endpoint
+    @GetMapping("/images/{filename}")
+    public ResponseEntity<Resource> getImage(@PathVariable String filename) throws IOException {
+        Path path = Paths.get("uploads/" + filename);
+        Resource resource = new UrlResource(path.toUri());
+        return ResponseEntity.ok()
+                .header("Content-Type", Files.probeContentType(path))
+                .body(resource);
+    }
+
 
 
 }

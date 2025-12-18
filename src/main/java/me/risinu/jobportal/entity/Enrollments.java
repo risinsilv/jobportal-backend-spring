@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.LocalDateTime;
 
@@ -20,11 +22,12 @@ public class Enrollments {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Courses course;
 
     @ManyToOne
-    @JoinColumn(name = "jobseeker_id")
-    private Users jobSeeker;
+    @JoinColumn(name = "users_id")
+    private Users user;
 
     private LocalDateTime enrolledAt;
 
