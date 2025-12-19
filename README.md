@@ -94,6 +94,11 @@ spring.datasource.username=your_mysql_username
 spring.datasource.password=your_mysql_password
 ```
 
+**Security Note:** Never commit sensitive credentials to version control. Consider using:
+- Environment variables for production deployments
+- `application-local.properties` (add to `.gitignore`) for local development
+- Spring Boot profiles for different environments
+
 ### JPA/Hibernate Configuration
 
 The application is configured to:
@@ -242,7 +247,7 @@ This project is part of a job portal and skill development platform.
 
 ## 👥 Authors
 
-- **risinu** - Initial work
+- **risinsilv** - Initial work
 
 ## 🙏 Acknowledgments
 
