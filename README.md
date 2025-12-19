@@ -99,6 +99,13 @@ spring.datasource.password=your_mysql_password
 - `application-local.properties` (add to `.gitignore`) for local development
 - Spring Boot profiles for different environments
 
+**Example using environment variables:**
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/demo_spring?createDatabaseIfNotExist=true
+spring.datasource.username=${DB_USERNAME:defaultuser}
+spring.datasource.password=${DB_PASSWORD:defaultpassword}
+```
+
 ### JPA/Hibernate Configuration
 
 The application is configured to:
