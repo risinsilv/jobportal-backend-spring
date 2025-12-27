@@ -16,5 +16,7 @@ public class UsersDto {
     private String password;
     private String profilePic;
     private String role;
-    private LocalDateTime CreatedAt;
+
+
+    private LocalDateTime createdAt;
 }

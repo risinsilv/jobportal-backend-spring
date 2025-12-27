@@ -73,6 +73,10 @@ public class UsersServiceImpl implements UsersService {
         String encryptedPassword = Base64.getEncoder().encodeToString(usersDto.getPassword().getBytes());
         usersDto.setPassword(encryptedPassword);
         Users user = modelMapper.map(usersDto, Users.class);
+
+        // Always start unverified; only OTP verification can flip it.
+        user.setVerified(false);
+
         Users savedUser = usersRepo.save(user);
         return modelMapper.map(savedUser, UsersDto.class);
     }
@@ -82,16 +86,42 @@ public class UsersServiceImpl implements UsersService {
         if (user != null) {
             String encryptedPassword = Base64.getEncoder().encodeToString(password.getBytes());
             if (user.getPassword().equals(encryptedPassword)) {
-                return tokenGenerator.generateToken(modelMapper.map(user, UsersDto.class));
+                // Build token from entity-backed DTO fields.
+                UsersDto dto = modelMapper.map(user, UsersDto.class);
+                return tokenGenerator.generateToken(dto);
             }
         }
-        return null; // Return null or throw an exception for invalid credentials
+        return null;
     }
 
     @Override
     public UsersDto getUserByEmail(String email) {
         return usersRepo.findByEmail(email)
                 .map(user -> modelMapper.map(user, UsersDto.class))
+                .orElse(null);
+    }
+
+    @Override
+    public boolean isEmailVerified(int userId) {
+        Users user = usersRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        return user.isVerified();
+    }
+
+    @Override
+    public void markEmailVerified(int userId) {
+        Users user = usersRepo.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+        if (!user.isVerified()) {
+            user.setVerified(true);
+            usersRepo.save(user);
+        }
+    }
+
+    @Override
+    public String getProfilePicByEmail(String email) {
+        return usersRepo.findByEmail(email)
+                .map(Users::getProfilePic)
                 .orElse(null);
     }
 }

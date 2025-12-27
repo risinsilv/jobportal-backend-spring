@@ -13,4 +13,8 @@ public interface UsersService {
     UsersDto registerUser(UsersDto usersDto);
     String login(String email, String password);
     UsersDto getUserByEmail(String email);
+
+    boolean isEmailVerified(int userId);
+    void markEmailVerified(int userId);
+    String getProfilePicByEmail(String email);
 }
