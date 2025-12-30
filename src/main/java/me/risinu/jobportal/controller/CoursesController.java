@@ -1,7 +1,6 @@
 package me.risinu.jobportal.controller;
 
 import me.risinu.jobportal.dto.CoursesDto;
-import me.risinu.jobportal.service.CoursesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,9 +1,7 @@
 package me.risinu.jobportal.service.impl;
 
 import me.risinu.jobportal.dto.TrainersDto;
-import me.risinu.jobportal.entity.Trainers;
 import me.risinu.jobportal.entity.Users;
-import me.risinu.jobportal.repo.TrainersRepo;
 import me.risinu.jobportal.repo.UsersRepo;
 import me.risinu.jobportal.service.TrainersService;
 import org.modelmapper.ModelMapper;

@@ -29,6 +29,13 @@ public class Users {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @Column(unique = true)
+    private String googleId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AuthProvider authProvider = AuthProvider.LOCAL;
+
     // default to false for newly created users
     @Column(nullable = false)
     private boolean isVerified = false;
@@ -38,9 +45,17 @@ public class Users {
     public enum Role {
         JobSeeker, Employer
     }
+
+    public enum AuthProvider {
+        LOCAL, GOOGLE
+    }
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = LocalDateTime.now();
         // isVerified defaults to false via field initializer
+        if (this.authProvider == null) {
+            this.authProvider = AuthProvider.LOCAL;
+        }
     }
 }

@@ -1,5 +1,6 @@
 package me.risinu.jobportal.service;
 
+import me.risinu.jobportal.dto.LoginResponseDto;
 import me.risinu.jobportal.dto.UsersDto;
 
 import java.util.List;
@@ -17,4 +18,6 @@ public interface UsersService {
     boolean isEmailVerified(int userId);
     void markEmailVerified(int userId);
     String getProfilePicByEmail(String email);
+
+    LoginResponseDto loginOrSignupWithGoogleIdToken(String idToken, String requestedRole);
 }

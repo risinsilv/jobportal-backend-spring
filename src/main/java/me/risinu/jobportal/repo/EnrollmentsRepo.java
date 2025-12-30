@@ -1,7 +1,6 @@
 package me.risinu.jobportal.repo;
 
 
-import me.risinu.jobportal.entity.Enrollments;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

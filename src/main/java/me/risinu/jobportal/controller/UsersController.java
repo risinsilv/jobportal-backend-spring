@@ -1,5 +1,6 @@
 package me.risinu.jobportal.controller;
 
+import me.risinu.jobportal.dto.GoogleAuthRequestDto;
 import me.risinu.jobportal.dto.LoginResponseDto;
 import me.risinu.jobportal.dto.UsersDto;
 import me.risinu.jobportal.service.UsersService;
@@ -213,6 +214,20 @@ public class UsersController {
             return ResponseEntity.status(403).build();
         }
         return ResponseEntity.ok(usersService.isEmailVerified(id));
+    }
+
+    /**
+     * Google sign-in/sign-up (token flow).
+     * Frontend sends a Google ID token (JWT).
+     * If the user doesn't exist yet, role can be provided; if null/blank, default to JobSeeker.
+     */
+    @PostMapping("/oauth2/google")
+    public ResponseEntity<LoginResponseDto> googleOauth(@RequestBody GoogleAuthRequestDto body) {
+        if (body == null || body.getIdToken() == null || body.getIdToken().isBlank()) {
+            return ResponseEntity.badRequest().build();
+        }
+        LoginResponseDto response = usersService.loginOrSignupWithGoogleIdToken(body.getIdToken(), body.getRole());
+        return ResponseEntity.ok(response);
     }
 
 }
