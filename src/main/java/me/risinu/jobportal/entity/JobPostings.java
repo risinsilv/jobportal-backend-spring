@@ -29,7 +29,65 @@ public class JobPostings {
 
     private String location;
 
+    /**
+     * Legacy field kept to avoid breaking existing code.
+     * Prefer using salaryMin/salaryMax/currency going forward.
+     */
     private String salary;
+
+    // --- New fields (not wired into DTO/service yet) ---
+
+    @Column(name = "salary_min")
+    private Integer salaryMin;
+
+    @Column(name = "salary_max")
+    private Integer salaryMax;
+
+    /** ISO 4217 currency code (e.g., LKR, USD). */
+    @Column(length = 3)
+    private String currency;
+
+    @Enumerated(EnumType.STRING)
+    private ExperienceLevel experienceLevel;
+
+    @Enumerated(EnumType.STRING)
+    private JobType jobType;
+
+    @Enumerated(EnumType.STRING)
+    private WorkplaceType workplaceType;
+
+    @Column(columnDefinition = "TEXT")
+    private String responsibilities;
+
+    @Column(columnDefinition = "TEXT")
+    private String niceToHave;
+
+    @Column(columnDefinition = "TEXT")
+    private String other;
+
+    public enum ExperienceLevel {
+        INTERNSHIP,
+        ENTRY_LEVEL,
+        ASSOCIATE,
+        MID_SENIOR_LEVEL,
+        DIRECTOR,
+        EXECUTIVE
+    }
+
+    public enum JobType {
+        FULL_TIME,
+        PART_TIME,
+        CONTRACT,
+        TEMPORARY,
+        INTERN,
+        FREELANCE
+    }
+
+    public enum WorkplaceType {
+        ONSITE,
+        HYBRID,
+        REMOTE
+    }
 
     @Column(columnDefinition = "TEXT")
     private String requirements;
