@@ -34,6 +34,9 @@ public class Applications {
 
     private LocalDateTime appliedAt;
 
+    @OneToOne(mappedBy = "application", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private ApplicationMatchDetails matchDetails;
+
     public enum Status {
         Applied, Shortlisted, Rejected, Hired
 
